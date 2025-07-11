@@ -1,23 +1,33 @@
 
-import { Code, Palette, Zap } from "lucide-react";
+import { Shield, Code, Search, Award } from "lucide-react";
 
 const About = () => {
   const skills = [
     {
+      icon: <Shield className="w-8 h-8" />,
+      title: "Offensive Security",
+      description: "SQL Injection, XSS, Command Injection, and web exploitation using Burp Suite and custom tools."
+    },
+    {
       icon: <Code className="w-8 h-8" />,
-      title: "Full-Stack Development",
-      description: "Building end-to-end solutions with modern technologies and best practices."
+      title: "Scripting & Programming",
+      description: "Python, Bash, PowerShell automation for security testing and tool development."
     },
     {
-      icon: <Palette className="w-8 h-8" />,
-      title: "UI/UX Design",
-      description: "Creating intuitive and beautiful user interfaces that delight users."
+      icon: <Search className="w-8 h-8" />,
+      title: "Malware Analysis",
+      description: "Reverse engineering with Ghidra, IDA Pro, and memory dump analysis using specialized tools."
     },
     {
-      icon: <Zap className="w-8 h-8" />,
-      title: "Performance Optimization",
-      description: "Ensuring fast, efficient, and scalable web applications."
+      icon: <Award className="w-8 h-8" />,
+      title: "CTF & Bug Bounty",
+      description: "Active CTF competitor (2nd place - Shadows of the Realm) and bug bounty researcher."
     }
+  ];
+
+  const techStack = [
+    "Python", "Burp Suite", "Wireshark", "Ghidra", "IDA Pro", "Nmap", 
+    "John the Ripper", "Hashcat", "CyberChef", "Shodan", "YARA", "Scapy"
   ];
 
   return (
@@ -28,9 +38,8 @@ const About = () => {
             About Me
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            I'm a passionate developer with a love for creating exceptional digital experiences. 
-            When I'm not coding, you'll find me writing about the latest technologies and sharing 
-            insights with the developer community.
+            Cybersecurity student at FAST-NUCES with a strong focus on red teaming and offensive security. 
+            Experienced in web exploitation, custom Python tool development, and malware analysis.
           </p>
         </div>
 
@@ -39,14 +48,16 @@ const About = () => {
             <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
               <h3 className="text-2xl font-bold mb-4">My Journey</h3>
               <p className="leading-relaxed mb-4">
-                Started my journey in web development 5 years ago, and since then I've been 
-                passionate about creating solutions that make a difference. I believe in the 
-                power of technology to transform ideas into reality.
+                Currently pursuing Bachelor's in Cybersecurity at FAST-NUCES (GPA: 3.13). 
+                Built real-world attack simulations across IoT, network, and blockchain environments.
+              </p>
+              <p className="leading-relaxed mb-4">
+                Proven experience as IT Manager at LandTrack.pk, conducting full-stack web security 
+                audits and identifying 10+ vulnerabilities with OWASP-based remediation strategies.
               </p>
               <p className="leading-relaxed">
-                Through my blog, I share knowledge, tutorials, and insights about the 
-                ever-evolving world of web development, hoping to help fellow developers 
-                on their journey.
+                Actively pursuing bug bounty research via HackerOne and Bugcrowd, focusing on 
+                practical skills and contributing to security testing teams.
               </p>
             </div>
           </div>
@@ -69,6 +80,20 @@ const About = () => {
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-8 shadow-lg">
+          <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">Technical Arsenal</h3>
+          <div className="flex flex-wrap gap-3 justify-center">
+            {techStack.map((tech, index) => (
+              <span
+                key={index}
+                className="px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-gray-800 rounded-full text-sm font-medium hover:scale-105 transition-transform duration-200"
+              >
+                {tech}
+              </span>
             ))}
           </div>
         </div>
