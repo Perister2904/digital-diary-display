@@ -1,112 +1,92 @@
 
-import { Calendar, ArrowRight, User, Terminal, Code } from "lucide-react";
+import { Calendar, ArrowRight, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Blog = () => {
   const blogPosts = [
     {
-      title: "[WRITEUP] Advanced SQL Injection Techniques in Modern Web Applications",
-      excerpt: "# Deep dive into advanced SQL injection vectors, bypassing modern WAFs, and exploitation techniques that security professionals need to understand.",
+      title: "Building Scalable React Applications",
+      excerpt: "Learn how to structure and build React applications that can grow with your team and requirements. We'll explore best practices, patterns, and tools that make scaling easier.",
       date: "2024-01-15",
-      readTime: "12 min read",
-      category: "Web Security",
-      featured: true,
-      status: "[FEATURED]"
-    },
-    {
-      title: "[TUTORIAL] Building Custom Python Tools for Red Team Operations",
-      excerpt: "# Learn how to develop custom Python tools for reconnaissance, exploitation, and post-exploitation activities in red team engagements.",
-      date: "2024-01-10",
       readTime: "8 min read",
-      category: "Tool Development",
-      featured: false,
-      status: "[NEW]"
+      category: "React",
+      featured: true
     },
     {
-      title: "[CTF-WRITEUP] Shadows of the Realm - Web Exploitation Challenge",
-      excerpt: "# Detailed writeup of the web exploitation challenge that helped secure our 2nd place finish in the Shadows of the Realm CTF competition.",
+      title: "The Future of Web Development",
+      excerpt: "Exploring emerging trends and technologies that are shaping the future of web development, from AI integration to new frameworks and tools.",
+      date: "2024-01-10",
+      readTime: "6 min read",
+      category: "Web Development",
+      featured: false
+    },
+    {
+      title: "CSS Grid vs Flexbox: When to Use What",
+      excerpt: "A comprehensive guide to understanding the differences between CSS Grid and Flexbox, with practical examples and use cases for each.",
       date: "2024-01-05",
-      readTime: "15 min read",
-      category: "CTF Writeup",
-      featured: false,
-      status: "[POPULAR]"
+      readTime: "5 min read",
+      category: "CSS",
+      featured: false
     },
     {
-      title: "[ANALYSIS] Malware Analysis with Ghidra: A Practical Approach",
-      excerpt: "# Step-by-step guide to analyzing malware samples using Ghidra, covering static analysis techniques and reverse engineering methodologies.",
+      title: "TypeScript Best Practices for 2024",
+      excerpt: "Modern TypeScript patterns and practices that will make your code more maintainable, type-safe, and developer-friendly.",
       date: "2024-01-01",
-      readTime: "10 min read",
-      category: "Malware Analysis",
-      featured: false,
-      status: "[ARCHIVED]"
+      readTime: "7 min read",
+      category: "TypeScript",
+      featured: false
     }
   ];
 
   const featuredPost = blogPosts.find(post => post.featured);
   const regularPosts = blogPosts.filter(post => !post.featured);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "[FEATURED]": return "text-primary";
-      case "[NEW]": return "text-accent";
-      case "[POPULAR]": return "text-yellow-500";
-      case "[ARCHIVED]": return "text-muted-foreground";
-      default: return "text-muted-foreground";
-    }
-  };
-
   return (
-    <section id="blog" className="py-20 px-4 bg-card/30">
+    <section id="blog" className="py-20 px-4 bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <div className="terminal-border bg-card p-6 inline-block mb-8">
-            <h2 className="text-3xl md:text-4xl font-mono font-bold text-primary text-glow">
-              <Terminal className="inline w-8 h-8 mr-3" />
-              tail -f /var/log/blog.log
-            </h2>
-            <div className="text-sm font-mono text-muted-foreground mt-2">
-              # Following security research and writeups
-            </div>
-          </div>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed font-mono">
-            <span className="text-accent">[LOG_INFO]</span> Technical writeups, security research, and insights from the cybersecurity frontlines. 
-            <span className="text-primary"> Sharing knowledge</span> and contributing to the community.
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Latest Blog Posts
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            I write about web development, programming tips, and the latest technologies. 
+            Join me on this journey of continuous learning and sharing knowledge.
           </p>
         </div>
 
         {/* Featured Post */}
         {featuredPost && (
           <div className="mb-12">
-            <div className="terminal-border bg-card overflow-hidden hover:bg-primary/5 transition-all duration-300">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
               <div className="md:flex">
-                <div className="md:w-1/2 bg-primary/5 flex items-center justify-center p-12 border-r border-border">
-                  <div className="text-center">
-                    <div className="terminal-border bg-primary/20 p-6 mb-4 mx-auto flex items-center justify-center w-24 h-24">
-                      <Code className="w-12 h-12 text-primary text-glow" />
+                <div className="md:w-1/2 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-12">
+                  <div className="text-white text-center">
+                    <div className="w-20 h-20 bg-white/20 rounded-xl mb-4 mx-auto flex items-center justify-center">
+                      <User className="w-10 h-10" />
                     </div>
-                    <p className="text-lg text-primary font-mono">{featuredPost.status}</p>
+                    <p className="text-lg opacity-90">Featured Article</p>
                   </div>
                 </div>
                 <div className="md:w-1/2 p-8">
                   <div className="flex items-center space-x-4 mb-4">
-                    <span className="px-3 py-1 bg-primary/10 text-primary terminal-border text-sm font-mono">
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                       {featuredPost.category}
                     </span>
-                    <span className={`px-3 py-1 terminal-border text-sm font-mono ${getStatusColor(featuredPost.status)}`}>
-                      {featuredPost.status}
+                    <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                      Featured
                     </span>
                   </div>
                   
-                  <h3 className="text-xl font-mono font-bold mb-4 text-primary">
+                  <h3 className="text-2xl font-bold mb-4 text-gray-800">
                     {featuredPost.title}
                   </h3>
                   
-                  <p className="text-muted-foreground mb-6 leading-relaxed font-mono text-sm">
+                  <p className="text-gray-600 mb-6 leading-relaxed">
                     {featuredPost.excerpt}
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground font-mono">
+                    <div className="flex items-center space-x-4 text-sm text-gray-500">
                       <div className="flex items-center space-x-1">
                         <Calendar className="w-4 h-4" />
                         <span>{new Date(featuredPost.date).toLocaleDateString()}</span>
@@ -114,9 +94,8 @@ const Blog = () => {
                       <span>{featuredPost.readTime}</span>
                     </div>
                     
-                    <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-mono terminal-border">
-                      <Terminal className="w-4 h-4 mr-2" />
-                      cat article.md
+                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                      Read More
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </div>
@@ -131,36 +110,33 @@ const Blog = () => {
           {regularPosts.map((post, index) => (
             <article
               key={index}
-              className="terminal-border bg-card overflow-hidden hover:bg-primary/5 transition-all duration-300 group"
+              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
-              <div className="h-40 bg-primary/5 flex items-center justify-center border-b border-border">
-                <div className="text-center">
-                  <div className="terminal-border bg-primary/20 p-3 mb-2 mx-auto flex items-center justify-center w-16 h-16">
-                    <Terminal className="w-8 h-8 text-primary group-hover:text-glow" />
+              <div className="h-40 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="text-white text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg mb-2 mx-auto flex items-center justify-center">
+                    <User className="w-6 h-6" />
                   </div>
-                  <p className="text-sm text-primary font-mono">[BLOG_POST]</p>
+                  <p className="text-sm opacity-75">Blog Post</p>
                 </div>
               </div>
               
               <div className="p-6">
-                <div className="flex items-center space-x-2 mb-3">
-                  <span className="px-3 py-1 bg-accent/10 text-accent terminal-border text-sm font-mono">
+                <div className="mb-3">
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                     {post.category}
-                  </span>
-                  <span className={`px-2 py-1 terminal-border text-xs font-mono ${getStatusColor(post.status)}`}>
-                    {post.status}
                   </span>
                 </div>
                 
-                <h3 className="text-lg font-mono font-bold mb-3 text-primary line-clamp-2 group-hover:text-glow">
+                <h3 className="text-lg font-bold mb-3 text-gray-800 line-clamp-2">
                   {post.title}
                 </h3>
                 
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed line-clamp-3 font-mono">
+                <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
                   {post.excerpt}
                 </p>
                 
-                <div className="flex items-center justify-between text-sm text-muted-foreground font-mono mb-4">
+                <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                   <div className="flex items-center space-x-1">
                     <Calendar className="w-4 h-4" />
                     <span>{new Date(post.date).toLocaleDateString()}</span>
@@ -168,9 +144,8 @@ const Blog = () => {
                   <span>{post.readTime}</span>
                 </div>
                 
-                <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground font-mono terminal-border">
-                  <Terminal className="w-4 h-4 mr-2" />
-                  ./read_post.sh
+                <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
+                  Read More
                 </Button>
               </div>
             </article>
@@ -181,10 +156,9 @@ const Blog = () => {
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground px-8 py-3 font-mono terminal-border"
+            className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3"
           >
-            <Terminal className="w-5 h-5 mr-2" />
-            find /blog -name "*.md" | head -20
+            View All Posts
           </Button>
         </div>
       </div>
