@@ -1,79 +1,151 @@
 
-import { ArrowDown, Github, Linkedin, Mail, Shield, Terminal } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Shield, Terminal, Code, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
+  const [currentCommand, setCurrentCommand] = useState(0);
+  const commands = [
+    "whoami",
+    "cat /etc/passwd | grep haris",
+    "ps aux | grep security",
+    "nmap -sS target.com",
+    "./exploit.py --target webapp"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentCommand((prev) => (prev + 1) % commands.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center px-4 pt-16 relative overflow-hidden">
-      {/* Background Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.1)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20"></div>
+    <section id="home" className="min-h-screen flex items-center justify-center px-4 pt-16 relative overflow-hidden matrix-bg">
+      {/* Matrix Rain Background */}
+      <div className="matrix-container">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="matrix-column matrix-rain"
+            style={{
+              left: `${i * 5}%`,
+              animationDelay: `${i * 0.5}s`,
+              animationDuration: `${8 + Math.random() * 4}s`
+            }}
+          >
+            {Array.from({ length: 30 }, () => 
+              String.fromCharCode(0x30A0 + Math.random() * 96)
+            ).join('\n')}
+          </div>
+        ))}
+      </div>
       
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        <div className="animate-fade-in">
-          <div className="flex items-center justify-center mb-6">
-            <Terminal className="w-12 h-12 text-primary mr-4" />
-            <Shield className="w-12 h-12 text-accent" />
+      <div className="max-w-5xl mx-auto text-center relative z-10">
+        <div className="terminal-border bg-card p-8 mb-8">
+          <div className="flex items-center mb-4 text-primary">
+            <div className="flex space-x-2 mr-4">
+              <div className="w-3 h-3 rounded-full bg-destructive"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-primary"></div>
+            </div>
+            <span className="font-mono text-sm">terminal@kali-linux:~$</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-mono font-bold mb-6 text-glow leading-tight">
-            <span className="text-primary">&gt;</span> Muhammad Haris
+          <div className="text-left font-mono text-sm space-y-2 mb-6">
+            <div className="text-muted-foreground">
+              $ {commands[currentCommand]}<span className="blink">|</span>
+            </div>
+            <div className="text-primary">
+              [+] Muhammad Haris - Red Team Specialist
+            </div>
+            <div className="text-accent">
+              [INFO] Status: Active | Role: Penetration Tester
+            </div>
+            <div className="text-muted-foreground">
+              [DEBUG] Skills: Web Exploitation, Malware Analysis, CTF
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-8">
+          <div className="flex items-center justify-center space-x-4 mb-6">
+            <Terminal className="w-16 h-16 text-primary text-glow" />
+            <Code className="w-12 h-12 text-accent" />
+            <Shield className="w-14 h-14 text-primary text-glow" />
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-mono font-bold mb-6 text-glow leading-tight">
+            <span className="text-primary">root@</span>
+            <span className="text-foreground">haris</span>
+            <span className="text-accent">:~$</span>
+            <span className="blink text-primary ml-2">_</span>
           </h1>
           
-          <div className="text-lg md:text-xl text-accent mb-4 font-mono">
-            <span className="border border-accent px-4 py-2 rounded bg-accent/10">
-              Red Team & Penetration Testing Enthusiast
-            </span>
+          <div className="terminal-border bg-card p-4 inline-block mb-6">
+            <div className="text-sm font-mono text-accent mb-2">#!/bin/bash</div>
+            <div className="text-primary font-mono">
+              echo "Red Team & Penetration Testing Enthusiast"
+            </div>
+            <div className="text-muted-foreground font-mono text-sm mt-2">
+              # Cybersecurity Student @ FAST-NUCES | CTF Competitor | Bug Bounty Hunter
+            </div>
           </div>
           
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed font-mono">
-            [CTF_Competitor] | [Cybersecurity_Student] | [Offensive_Security_Specialist]
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed font-mono">
+            <span className="text-accent">[SPECIALIZATIONS]</span> Web Exploitation • Malware Analysis • Network Security • Custom Tool Development
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 text-lg font-mono border-glow"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3 font-mono border-glow terminal-border"
             >
               <Terminal className="w-5 h-5 mr-2" />
-              ./view_projects.sh
+              ./execute_portfolio.sh
             </Button>
             <Button
               variant="outline"
               size="lg"
-              className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground px-8 py-3 text-lg font-mono"
+              className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground px-6 py-3 font-mono terminal-border"
             >
               <Shield className="w-5 h-5 mr-2" />
-              Download CV
+              cat resume.pdf
             </Button>
           </div>
 
-          <div className="flex justify-center space-x-6 mb-12">
+          <div className="grid grid-cols-3 gap-6 max-w-md mx-auto mb-12">
             <a
               href="https://github.com/Perister2904"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded bg-card border border-border hover:border-primary transition-all duration-300 hover:scale-110 card-hover"
+              className="p-4 terminal-border bg-card hover:bg-primary/10 transition-all duration-300 group"
             >
-              <Github className="w-6 h-6 text-primary" />
+              <Github className="w-8 h-8 text-primary mx-auto group-hover:text-glow" />
+              <div className="text-xs font-mono mt-2 text-muted-foreground">github</div>
             </a>
             <a
               href="https://www.linkedin.com/in/haris-muhammad-696512228"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded bg-card border border-border hover:border-accent transition-all duration-300 hover:scale-110 card-hover"
+              className="p-4 terminal-border bg-card hover:bg-accent/10 transition-all duration-300 group"
             >
-              <Linkedin className="w-6 h-6 text-accent" />
+              <Linkedin className="w-8 h-8 text-accent mx-auto" />
+              <div className="text-xs font-mono mt-2 text-muted-foreground">linkedin</div>
             </a>
             <a
               href="mailto:hary.pery161@gmail.com"
-              className="p-3 rounded bg-card border border-border hover:border-primary transition-all duration-300 hover:scale-110 card-hover"
+              className="p-4 terminal-border bg-card hover:bg-primary/10 transition-all duration-300 group"
             >
-              <Mail className="w-6 h-6 text-primary" />
+              <Mail className="w-8 h-8 text-primary mx-auto group-hover:text-glow" />
+              <div className="text-xs font-mono mt-2 text-muted-foreground">email</div>
             </a>
           </div>
 
-          <div className="animate-bounce">
-            <ArrowDown className="w-8 h-8 text-accent mx-auto" />
+          <div className="flex justify-center">
+            <div className="terminal-border p-2 bg-card">
+              <ArrowDown className="w-6 h-6 text-accent animate-bounce" />
+            </div>
           </div>
         </div>
       </div>

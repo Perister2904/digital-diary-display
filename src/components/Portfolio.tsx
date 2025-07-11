@@ -1,93 +1,69 @@
 
-import { ExternalLink, Github, Shield, Cpu, Network, Smartphone, Terminal, Zap } from "lucide-react";
+import { ExternalLink, Github, Terminal, Shield, Code, Database, Wifi, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Portfolio = () => {
   const projects = [
     {
       title: "SmartFuzz",
-      description: "ML-based fuzzing tool for detecting vulnerabilities in IoT devices using intelligent input generation and automated vulnerability discovery.",
-      icon: <Smartphone className="w-8 h-8" />,
-      technologies: ["Python", "Machine Learning", "IoT Security", "Fuzzing"],
-      category: "Security Tool",
-      status: "Active",
-      githubUrl: "#"
+      category: "ML Security Tool",
+      description: "ML-based fuzzing tool for detecting vulnerabilities in IoT devices using intelligent input generation.",
+      tech: ["Python", "Machine Learning", "IoT Security", "Fuzzing"],
+      icon: <Shield className="w-6 h-6" />,
+      status: "[ACTIVE]"
     },
     {
       title: "MedBlock",
-      description: "Decentralized electronic health record system built on Ethereum blockchain for secure patient data management and privacy protection.",
-      icon: <Shield className="w-8 h-8" />,
-      technologies: ["Ethereum", "Solidity", "Blockchain", "Smart Contracts"],
       category: "Blockchain Security",
-      status: "Deployed",
-      githubUrl: "#"
+      description: "Decentralized electronic health record system built on Ethereum for secure patient data management.",
+      tech: ["Ethereum", "Solidity", "Web3", "Healthcare"],
+      icon: <Lock className="w-6 h-6" />,
+      status: "[DEPLOYED]"
     },
     {
       title: "PCAP Intrusion Classifier",
-      description: "Python tool that analyzes Wireshark PCAP files using machine learning algorithms to detect cyberattacks and network intrusions in real time.",
-      icon: <Network className="w-8 h-8" />,
-      technologies: ["Python", "Wireshark", "ML", "Network Security"],
       category: "Network Analysis",
-      status: "Beta",
-      githubUrl: "#"
+      description: "Python tool that analyzes Wireshark PCAP files using machine learning to detect cyberattacks in real time.",
+      tech: ["Python", "Wireshark", "ML", "Network Security"],
+      icon: <Database className="w-6 h-6" />,
+      status: "[BETA]"
     },
     {
       title: "Wireless Network Auditor",
-      description: "Wi-Fi penetration testing tool that performs dictionary-based attacks to assess password strength and identify encryption vulnerabilities.",
-      icon: <Network className="w-8 h-8" />,
-      technologies: ["Python", "Wi-Fi Security", "Dictionary Attacks", "Penetration Testing"],
-      category: "Wireless Security",
-      status: "Active",
-      githubUrl: "#"
+      category: "Wi-Fi Security",
+      description: "Wi-Fi auditing tool that performs dictionary-based attacks to assess password strength and encryption flaws.",
+      tech: ["Python", "Wi-Fi Security", "Dictionary Attack", "WPA/WEP"],
+      icon: <Wifi className="w-6 h-6" />,
+      status: "[TESTING]"
     },
     {
       title: "IoT Risk Simulator",
-      description: "Simulated segmented IoT infrastructure in Cisco Packet Tracer to test attack surfaces, network isolation strategies, and security controls.",
-      icon: <Cpu className="w-8 h-8" />,
-      technologies: ["Cisco Packet Tracer", "IoT Security", "Network Simulation", "Risk Assessment"],
-      category: "IoT Security",
-      status: "Complete",
-      githubUrl: "#"
+      category: "Infrastructure Security",
+      description: "Simulated segmented IoT infrastructure in Cisco Packet Tracer to test attack surfaces and isolation strategies.",
+      tech: ["Cisco Packet Tracer", "IoT", "Network Segmentation", "Risk Assessment"],
+      icon: <Shield className="w-6 h-6" />,
+      status: "[RESEARCH]"
     },
     {
       title: "Automated Wireless Testing Tool",
-      description: "Python-based penetration testing framework for automated wireless security assessment in academic cybersecurity laboratory environments.",
-      icon: <Shield className="w-8 h-8" />,
-      technologies: ["Python", "Wireless Security", "Automation", "Penetration Testing"],
-      category: "Security Automation",
-      status: "Active",
-      githubUrl: "#"
-    }
-  ];
-
-  const achievements = [
-    {
-      title: "CTF Competition",
-      description: "2nd Place - Shadows of the Realm",
-      highlight: "Competitive Achievement",
-      icon: <Zap className="w-6 h-6" />
-    },
-    {
-      title: "Security Audit",
-      description: "Identified 10+ vulnerabilities at LandTrack.pk",
-      highlight: "Professional Experience",
-      icon: <Shield className="w-6 h-6" />
-    },
-    {
-      title: "Bug Bounty Research",
-      description: "Active researcher on HackerOne & Bugcrowd",
-      highlight: "Ongoing Research",
-      icon: <Terminal className="w-6 h-6" />
+      category: "Penetration Testing",
+      description: "Python-based penetration testing tool for assessing wireless security in academic cybersecurity labs.",
+      tech: ["Python", "Penetration Testing", "Wireless Security", "Automation"],
+      icon: <Code className="w-6 h-6" />,
+      status: "[PRODUCTION]"
     }
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'border-primary text-primary';
-      case 'Deployed': return 'border-accent text-accent';
-      case 'Beta': return 'border-yellow-500 text-yellow-500';
-      case 'Complete': return 'border-green-500 text-green-500';
-      default: return 'border-muted text-muted-foreground';
+      case "[ACTIVE]": return "text-primary";
+      case "[DEPLOYED]": return "text-accent";
+      case "[BETA]": return "text-yellow-500";
+      case "[TESTING]": return "text-orange-500";
+      case "[RESEARCH]": return "text-purple-500";
+      case "[PRODUCTION]": return "text-primary";
+      default: return "text-muted-foreground";
     }
   };
 
@@ -95,90 +71,117 @@ const Portfolio = () => {
     <section id="portfolio" className="py-20 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6 text-primary">
-            <Terminal className="inline w-10 h-10 mr-4" />
-            ./portfolio.sh --show-all
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-mono">
-            Security projects, tools, and research focusing on offensive security, 
-            vulnerability research, and defensive implementations.
+          <div className="terminal-border bg-card p-6 inline-block mb-8">
+            <h2 className="text-3xl md:text-4xl font-mono font-bold text-primary text-glow">
+              <Terminal className="inline w-8 h-8 mr-3" />
+              ls -la /projects/
+            </h2>
+            <div className="text-sm font-mono text-muted-foreground mt-2">
+              # Listing security projects and research work
+            </div>
+          </div>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed font-mono">
+            <span className="text-accent">[INFO]</span> Collection of cybersecurity tools, research projects, and practical implementations 
+            in offensive security, malware analysis, and penetration testing.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {projects.map((project, index) => (
-            <div
-              key={index}
-              className="bg-card border border-border rounded-lg overflow-hidden card-hover"
-            >
-              <div className="h-32 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center border-b border-border">
-                <div className="text-primary">
-                  {project.icon}
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-xl font-mono font-bold text-primary">
-                    {project.title}
-                  </h3>
-                  <span className={`text-xs px-2 py-1 rounded border font-mono ${getStatusColor(project.status)}`}>
+            <Card key={index} className="terminal-border bg-card hover:bg-primary/5 transition-all duration-300 group">
+              <CardHeader>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-3 terminal-border bg-primary/10 text-primary group-hover:text-glow">
+                    {project.icon}
+                  </div>
+                  <span className={`text-xs font-mono px-2 py-1 terminal-border ${getStatusColor(project.status)}`}>
                     {project.status}
                   </span>
                 </div>
-                
-                <div className="mb-3">
-                  <span className="text-xs bg-accent/10 text-accent px-2 py-1 rounded font-mono border border-accent/30">
-                    {project.category}
-                  </span>
-                </div>
-                
-                <p className="text-muted-foreground mb-4 leading-relaxed text-sm">
+                <CardTitle className="text-lg font-mono text-primary group-hover:text-glow">
+                  {project.title}
+                </CardTitle>
+                <CardDescription className="font-mono text-accent">
+                  # {project.category}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground mb-4 text-sm font-mono leading-relaxed">
                   {project.description}
                 </p>
-                
                 <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.map((tech, techIndex) => (
+                  {project.tech.map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="px-2 py-1 bg-primary/10 text-primary text-xs font-mono rounded border border-primary/30"
+                      className="px-2 py-1 bg-accent/10 terminal-border text-accent text-xs font-mono"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground font-mono"
-                >
-                  <Github className="w-4 h-4 mr-2" />
-                  View Source
-                </Button>
-              </div>
-            </div>
+                <div className="flex space-x-3">
+                  <Button 
+                    size="sm" 
+                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-mono terminal-border"
+                  >
+                    <Github className="w-4 h-4 mr-2" />
+                    ./source
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="flex-1 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-mono terminal-border"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    ./demo
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
-        <div className="bg-card border border-border rounded-lg p-8">
-          <h3 className="text-2xl font-mono font-bold mb-6 text-center text-primary">
-            <Shield className="inline w-6 h-6 mr-2" />
-            Key Achievements
-          </h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {achievements.map((achievement, index) => (
-              <div key={index} className="text-center border border-border rounded-lg p-6 card-hover">
-                <div className="flex justify-center mb-4 text-primary">
-                  {achievement.icon}
-                </div>
-                <h4 className="font-mono font-semibold text-lg mb-2 text-primary">{achievement.title}</h4>
-                <p className="text-sm text-muted-foreground mb-4">{achievement.description}</p>
-                <span className="text-xs bg-accent/10 text-accent px-3 py-1 rounded font-mono border border-accent/30">
-                  {achievement.highlight}
-                </span>
+        <div className="terminal-border bg-card p-8 text-center">
+          <div className="mb-6">
+            <h3 className="text-xl font-mono font-bold text-primary mb-2">
+              <Code className="inline w-6 h-6 mr-2" />
+              Additional Research & CTF Work
+            </h3>
+            <div className="text-sm font-mono text-muted-foreground">
+              # Bug bounty hunting and competitive cybersecurity
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6 text-left">
+            <div className="space-y-3">
+              <div className="text-primary font-mono font-semibold">Bug Bounty Research:</div>
+              <div className="font-mono text-sm text-muted-foreground space-y-1">
+                <div><span className="text-accent">[PLATFORM]</span> HackerOne, Bugcrowd</div>
+                <div><span className="text-accent">[FOCUS]</span> Web Application Security</div>
+                <div><span className="text-accent">[TECHNIQUES]</span> XSS, IDOR, SQLi Discovery</div>
+                <div><span className="text-accent">[STATUS]</span> <span className="text-primary">Active Researcher</span></div>
               </div>
-            ))}
+            </div>
+            
+            <div className="space-y-3">
+              <div className="text-primary font-mono font-semibold">CTF Achievements:</div>
+              <div className="font-mono text-sm text-muted-foreground space-y-1">
+                <div><span className="text-accent">[EVENT]</span> Shadows of the Realm</div>
+                <div><span className="text-accent">[RANK]</span> <span className="text-primary">2nd Place</span></div>
+                <div><span className="text-accent">[CATEGORIES]</span> Web, Reverse Engineering</div>
+                <div><span className="text-accent">[PLATFORM]</span> TryHackMe (In Progress)</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <Button
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-mono terminal-border px-8"
+            >
+              <Terminal className="w-5 h-5 mr-2" />
+              ./view_all_projects.sh --verbose
+            </Button>
           </div>
         </div>
       </div>
