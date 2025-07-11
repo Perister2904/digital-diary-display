@@ -1,27 +1,31 @@
 
-import { Shield, Code, Search, Award } from "lucide-react";
+import { Shield, Code, Search, Award, Terminal, Zap } from "lucide-react";
 
 const About = () => {
   const skills = [
     {
       icon: <Shield className="w-8 h-8" />,
       title: "Offensive Security",
-      description: "SQL Injection, XSS, Command Injection, and web exploitation using Burp Suite and custom tools."
+      description: "SQL Injection, XSS, Command Injection, and web exploitation using Burp Suite and custom tools.",
+      tech: ["Burp Suite", "OWASP", "SQLi", "XSS"]
     },
     {
       icon: <Code className="w-8 h-8" />,
       title: "Scripting & Programming",
-      description: "Python, Bash, PowerShell automation for security testing and tool development."
+      description: "Python, Bash, PowerShell automation for security testing and tool development.",
+      tech: ["Python", "Bash", "PowerShell", "SQL"]
     },
     {
       icon: <Search className="w-8 h-8" />,
       title: "Malware Analysis",
-      description: "Reverse engineering with Ghidra, IDA Pro, and memory dump analysis using specialized tools."
+      description: "Reverse engineering with Ghidra, IDA Pro, and memory dump analysis using specialized tools.",
+      tech: ["Ghidra", "IDA Pro", "x64dbg", "YARA"]
     },
     {
       icon: <Award className="w-8 h-8" />,
       title: "CTF & Bug Bounty",
-      description: "Active CTF competitor (2nd place - Shadows of the Realm) and bug bounty researcher."
+      description: "Active CTF competitor (2nd place - Shadows of the Realm) and bug bounty researcher.",
+      tech: ["HackerOne", "Bugcrowd", "CTF", "Recon"]
     }
   ];
 
@@ -31,34 +35,48 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-20 px-4">
+    <section id="about" className="py-20 px-4 bg-card/50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            About Me
+          <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6 text-primary">
+            <Terminal className="inline w-10 h-10 mr-4" />
+            ./about_me.py
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Cybersecurity student at FAST-NUCES with a strong focus on red teaming and offensive security. 
-            Experienced in web exploitation, custom Python tool development, and malware analysis.
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-mono">
+            Cybersecurity student at FAST-NUCES with expertise in red teaming and offensive security. 
+            Building real-world attack simulations and contributing to security research.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
           <div>
-            <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">My Journey</h3>
-              <p className="leading-relaxed mb-4">
-                Currently pursuing Bachelor's in Cybersecurity at FAST-NUCES (GPA: 3.13). 
-                Built real-world attack simulations across IoT, network, and blockchain environments.
-              </p>
-              <p className="leading-relaxed mb-4">
-                Proven experience as IT Manager at LandTrack.pk, conducting full-stack web security 
-                audits and identifying 10+ vulnerabilities with OWASP-based remediation strategies.
-              </p>
-              <p className="leading-relaxed">
-                Actively pursuing bug bounty research via HackerOne and Bugcrowd, focusing on 
-                practical skills and contributing to security testing teams.
-              </p>
+            <div className="bg-card border border-border rounded-lg p-8 card-hover">
+              <div className="flex items-center mb-4">
+                <Zap className="w-6 h-6 text-primary mr-2" />
+                <h3 className="text-2xl font-mono font-bold text-primary">sys.info()</h3>
+              </div>
+              <div className="space-y-4 font-mono text-sm">
+                <div className="flex">
+                  <span className="text-accent w-24">[STATUS]</span>
+                  <span className="text-foreground">Active Student @ FAST-NUCES (GPA: 3.13)</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-24">[ROLE]</span>
+                  <span className="text-foreground">IT Manager @ LandTrack.pk</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-24">[FOCUS]</span>
+                  <span className="text-foreground">Red Team Operations & Web Exploitation</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-24">[CTF]</span>
+                  <span className="text-foreground">2nd Place - Shadows of the Realm</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-24">[RESEARCH]</span>
+                  <span className="text-foreground">Bug Bounty via HackerOne & Bugcrowd</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -66,17 +84,27 @@ const About = () => {
             {skills.map((skill, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="bg-card border border-border rounded-lg p-6 card-hover"
               >
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
+                  <div className="p-3 bg-primary/10 border border-primary rounded-lg text-primary">
                     {skill.icon}
                   </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800">
+                  <div className="flex-1">
+                    <h4 className="text-xl font-mono font-semibold mb-2 text-primary">
                       {skill.title}
                     </h4>
-                    <p className="text-gray-600">{skill.description}</p>
+                    <p className="text-muted-foreground mb-3 text-sm">{skill.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {skill.tech.map((tech, techIndex) => (
+                        <span
+                          key={techIndex}
+                          className="px-2 py-1 bg-accent/10 border border-accent text-accent text-xs font-mono rounded"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -84,16 +112,19 @@ const About = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-8 shadow-lg">
-          <h3 className="text-2xl font-bold mb-6 text-center text-gray-800">Technical Arsenal</h3>
-          <div className="flex flex-wrap gap-3 justify-center">
+        <div className="bg-card border border-border rounded-lg p-8">
+          <h3 className="text-2xl font-mono font-bold mb-6 text-center text-primary">
+            <Code className="inline w-6 h-6 mr-2" />
+            Technical Arsenal
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {techStack.map((tech, index) => (
-              <span
+              <div
                 key={index}
-                className="px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-gray-800 rounded-full text-sm font-medium hover:scale-105 transition-transform duration-200"
+                className="px-3 py-2 bg-primary/10 border border-primary text-primary text-center text-sm font-mono rounded hover:bg-primary hover:text-primary-foreground transition-colors duration-200 cursor-default"
               >
                 {tech}
-              </span>
+              </div>
             ))}
           </div>
         </div>

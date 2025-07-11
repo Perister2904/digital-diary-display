@@ -1,5 +1,5 @@
 
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, Terminal, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,122 +7,132 @@ import { Textarea } from "@/components/ui/textarea";
 const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
     console.log("Form submitted");
   };
 
   return (
-    <section id="contact" className="py-20 px-4 bg-white">
+    <section id="contact" className="py-20 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Get In Touch
+          <h2 className="text-4xl md:text-5xl font-mono font-bold mb-6 text-primary">
+            <Terminal className="inline w-10 h-10 mr-4" />
+            ./contact.py --init
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Have a project in mind or want to discuss something? I'd love to hear from you. 
-            Let's create something amazing together!
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-mono">
+            Ready to collaborate on security projects or discuss cybersecurity? 
+            Let's connect and build something secure together.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                Let's Connect
+            <div className="bg-card border border-border rounded-lg p-8">
+              <h3 className="text-2xl font-mono font-bold mb-6 text-primary">
+                <Terminal className="inline w-6 h-6 mr-2" />
+                Connection Established
               </h3>
-              <p className="text-gray-600 leading-relaxed mb-8">
-                I'm always open to discussing new opportunities, collaborations, 
-                or just having a chat about technology and development. Feel free 
-                to reach out through any of the channels below.
-              </p>
+              <div className="space-y-6 font-mono text-sm">
+                <div className="flex items-start">
+                  <span className="text-accent w-16">[EMAIL]</span>
+                  <span className="text-foreground">hary.pery161@gmail.com</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-accent w-16">[PHONE]</span>
+                  <span className="text-foreground">0322-2728443</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-accent w-16">[LOC]</span>
+                  <span className="text-foreground">Karachi, Pakistan</span>
+                </div>
+                <div className="flex items-start">
+                  <span className="text-accent w-16">[STATUS]</span>
+                  <span className="text-primary">Available for Security Projects</span>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Email</h4>
-                  <p className="text-gray-600">your.email@example.com</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Phone</h4>
-                  <p className="text-gray-600">+1 (555) 123-4567</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Location</h4>
-                  <p className="text-gray-600">Your City, Country</p>
-                </div>
+            <div className="space-y-4">
+              <h4 className="font-mono font-semibold text-primary mb-4">Social Links:</h4>
+              <div className="flex space-x-4">
+                <a
+                  href="https://github.com/Perister2904"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 p-3 bg-card border border-border rounded-lg hover:border-primary transition-colors card-hover"
+                >
+                  <Github className="w-5 h-5 text-primary" />
+                  <span className="font-mono text-sm">GitHub</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/haris-muhammad-696512228"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors card-hover"
+                >
+                  <Linkedin className="w-5 h-5 text-accent" />
+                  <span className="font-mono text-sm">LinkedIn</span>
+                </a>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-8">
+          <div className="bg-card border border-border rounded-lg p-8">
+            <div className="flex items-center mb-6">
+              <Terminal className="w-6 h-6 text-primary mr-2" />
+              <h3 className="text-xl font-mono font-bold text-primary">send_message.py</h3>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name
+                  <label htmlFor="name" className="block text-sm font-mono text-accent mb-2">
+                    --name
                   </label>
                   <Input
                     id="name"
                     type="text"
                     placeholder="Your Name"
-                    className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    className="bg-background border-border focus:border-primary focus:ring-primary font-mono"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
+                  <label htmlFor="email" className="block text-sm font-mono text-accent mb-2">
+                    --email
                   </label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="your.email@example.com"
-                    className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="your.email@domain.com"
+                    className="bg-background border-border focus:border-primary focus:ring-primary font-mono"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
+                <label htmlFor="subject" className="block text-sm font-mono text-accent mb-2">
+                  --subject
                 </label>
                 <Input
                   id="subject"
                   type="text"
-                  placeholder="What's this about?"
-                  className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Project Collaboration | Security Consultation"
+                  className="bg-background border-border focus:border-primary focus:ring-primary font-mono"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+                <label htmlFor="message" className="block text-sm font-mono text-accent mb-2">
+                  --message
                 </label>
                 <Textarea
                   id="message"
                   rows={5}
-                  placeholder="Tell me about your project or just say hello!"
-                  className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500 resize-none"
+                  placeholder="Describe your security project or consultation needs..."
+                  className="bg-background border-border focus:border-primary focus:ring-primary resize-none font-mono"
                   required
                 />
               </div>
@@ -130,10 +140,10 @@ const Contact = () => {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-mono border-glow"
               >
                 <Send className="w-5 h-5 mr-2" />
-                Send Message
+                ./send_message.sh --execute
               </Button>
             </form>
           </div>
