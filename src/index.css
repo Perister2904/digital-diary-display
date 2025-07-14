@@ -41,7 +41,7 @@
     @apply bg-background text-foreground;
     overflow-x: hidden;
     min-width: 320px;
-    font-family: 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   }
   
   /* Custom scrollbar */
@@ -77,44 +77,23 @@
 }
 
 @layer utilities {
-  /* Terminal glow effects */
-  .text-glow {
-    text-shadow: 0 0 10px currentColor;
+  /* Smooth animations */
+  .transition-glow {
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
   }
   
-  .border-glow {
-    box-shadow: 0 0 10px currentColor;
+  /* Terminal-specific utilities */
+  .terminal-glow {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
   }
   
-  /* Matrix-style background patterns */
-  .matrix-bg {
-    background-image: 
-      linear-gradient(90deg, rgba(0,255,0,0.1) 1px, transparent 1px),
-      linear-gradient(rgba(0,255,0,0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
-  /* Terminal cursor animation */
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-  
-  .cursor-blink {
-    animation: blink 1s infinite;
-  }
-  
-  /* Glitch effect for background */
-  @keyframes glitch {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0); }
-  }
-  
-  .glitch {
-    animation: glitch 0.3s infinite;
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
   }
 }

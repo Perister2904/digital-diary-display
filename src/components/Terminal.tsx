@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Terminal as TerminalIcon } from 'lucide-react';
 
 interface TerminalLine {
-  type: 'input' | 'output' | 'system';
+  type: 'input' | 'output' | 'system' | 'error';
   content: string;
   timestamp?: string;
 }
@@ -13,6 +13,9 @@ const Terminal = () => {
   const [currentInput, setCurrentInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -24,57 +27,13 @@ const Terminal = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Matrix rain effect
-  useEffect(() => {
-    const canvas = document.getElementById('matrix-canvas') as HTMLCanvasElement;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
-    const matrixArray = matrix.split("");
-    const fontSize = 10;
-    const columns = canvas.width / fontSize;
-    const drops: number[] = [];
-
-    for (let x = 0; x < columns; x++) {
-      drops[x] = 1;
-    }
-
-    function draw() {
-      ctx!.fillStyle = 'rgba(0, 0, 0, 0.04)';
-      ctx!.fillRect(0, 0, canvas.width, canvas.height);
-      
-      ctx!.fillStyle = '#00ff00';
-      ctx!.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
-        ctx!.fillText(text, i * fontSize, drops[i] * fontSize);
-        
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-
-    const interval = setInterval(draw, 35);
-    return () => clearInterval(interval);
-  }, []);
-
   // Welcome message on mount
   useEffect(() => {
     const welcomeLines: TerminalLine[] = [
-      { type: 'system', content: '================================================' },
       { type: 'system', content: 'Welcome to Haris\' Digital Terminal.' },
-      { type: 'system', content: 'Type a command or select an option below.' },
-      { type: 'system', content: '================================================' },
-      { type: 'system', content: 'Available commands: about, projects, skills, contact, blog, clear, help' },
+      { type: 'system', content: 'Type a command or click an option below to explore' },
+      { type: 'system', content: '' },
+      { type: 'system', content: 'Available commands: about, projects, skills, contact, blog, help, clear, whoami, theme' },
       { type: 'system', content: '' }
     ];
     
@@ -88,29 +47,66 @@ const Terminal = () => {
     }
   }, [lines]);
 
-  const typeText = async (text: string, delay: number = 30) => {
+  // Handle keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (historyIndex < commandHistory.length - 1) {
+        const newIndex = historyIndex + 1;
+        setHistoryIndex(newIndex);
+        setCurrentInput(commandHistory[commandHistory.length - 1 - newIndex]);
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1;
+        setHistoryIndex(newIndex);
+        setCurrentInput(commandHistory[commandHistory.length - 1 - newIndex]);
+      } else if (historyIndex === 0) {
+        setHistoryIndex(-1);
+        setCurrentInput('');
+      }
+    }
+  };
+
+  const typeText = async (text: string, delay: number = 25) => {
     setIsTyping(true);
-    const chars = text.split('');
-    let displayText = '';
+    const lines = text.split('\n');
     
-    for (let i = 0; i < chars.length; i++) {
-      displayText += chars[i];
-      setLines(prev => {
-        const newLines = [...prev];
-        if (newLines[newLines.length - 1]?.type === 'output') {
-          newLines[newLines.length - 1].content = displayText;
-        } else {
-          newLines.push({ type: 'output', content: displayText });
-        }
-        return newLines;
-      });
-      await new Promise(resolve => setTimeout(resolve, delay));
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+      const line = lines[lineIndex];
+      let displayText = '';
+      
+      for (let i = 0; i < line.length; i++) {
+        displayText += line[i];
+        setLines(prev => {
+          const newLines = [...prev];
+          const lastLineIndex = newLines.length - 1;
+          if (newLines[lastLineIndex]?.type === 'output') {
+            newLines[lastLineIndex].content = displayText;
+          } else {
+            newLines.push({ type: 'output', content: displayText });
+          }
+          return newLines;
+        });
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      
+      if (lineIndex < lines.length - 1) {
+        setLines(prev => [...prev, { type: 'output', content: '' }]);
+      }
     }
     setIsTyping(false);
   };
 
   const executeCommand = async (command: string) => {
     const cmd = command.toLowerCase().trim();
+    
+    // Add to command history
+    if (cmd && !commandHistory.includes(cmd)) {
+      setCommandHistory(prev => [cmd, ...prev].slice(0, 10));
+    }
+    setHistoryIndex(-1);
     
     // Add input to terminal
     setLines(prev => [...prev, { type: 'input', content: `$ ${command}` }]);
@@ -120,103 +116,88 @@ const Terminal = () => {
     
     switch (cmd) {
       case 'about':
-        await typeText(`
-Name: Muhammad Haris
-Status: Student @ FAST-NUCES (GPA: 3.13)
-Role: IT Manager @ LandTrack.pk
-Focus: Red Team Operations & Web Exploitation
-CTF: 2nd Place - Shadows of the Realm
-Bounty: HackerOne & Bugcrowd Researcher
+        await typeText(`Cybersecurity student at FAST-NUCES with a strong focus on red teaming, penetration testing, and real-world attack simulations.
 
-I'm a cybersecurity student with expertise in red teaming and offensive security, 
-building real-world attack simulations and contributing to security research.
-        `);
+🏆 2nd place in "Shadows of the Realm" CTF
+🔍 Bug bounty researcher on HackerOne and Bugcrowd
+⚡ Experienced in Python tool development, web exploitation, malware analysis
+🔐 Active in XSS and IDOR vulnerability research
+
+Passionate about building custom security tools and contributing to the cybersecurity community through practical research and development.`);
         break;
         
       case 'projects':
-        await typeText(`
-🚀 My GitHub Projects:
+        await typeText(`🚀 My GitHub Projects:
 
 1. Multi-file Malware Analyzer
-   → Advanced malware analysis tool with ML detection
+   → A Python-based tool for analyzing and correlating multiple malicious files
    → https://github.com/masooma09/Multi-file-Malware-Analyzer
 
-2. Event Management System
-   → Full-stack platform with user authentication
+2. EVENT MANAGEMENT SYSTEM
+   → A system for managing event creation, registration, and scheduling
    → https://github.com/Perister2904/EVENT-MANAGEMENT-SYSTEM
 
-3. Client-Server Quiz Game
-   → Real-time multiplayer quiz with live scoring
+3. Client-Server Quiz Game Application
+   → A TCP socket-based multiplayer quiz game using secure communication
    → https://github.com/masooma09/-Client-Server-Quiz-Game-Application-
 
-4. IoT Device Risk Management
-   → Security assessment tool for IoT devices
+4. IoT Device Risk Management System
+   → Evaluates IoT device vulnerabilities and risk exposure
    → https://github.com/masooma09/-IoT-Device-Risk-Management-System
 
-5. WiScan Audit Tool
-   → Brute-force Wi-Fi security auditing tool
+5. WiScan – A Brute-Force Dictionary-Based Wi-Fi Audit Tool
+   → Audits wireless networks using dictionary attacks to test password strength
    → https://github.com/masooma09/WiScan-A-Brute-Force-Dictionary-Based-Wi-Fi-Audit-Tool
 
-6. AI-Powered Connect Four+
-   → Enhanced Connect Four with AI opponent
-   → https://github.com/masooma09/AI-Powered-Connect-Four-Plus
-        `);
+6. AI-Powered Connect Four Plus
+   → An enhanced Connect Four game featuring AI strategy and fog-of-war mode
+   → https://github.com/masooma09/AI-Powered-Connect-Four-Plus`);
         break;
         
       case 'skills':
-        await typeText(`
-💻 Technical Skills:
+        await typeText(`💻 Technical Skills:
 
-Programming Languages:
-• Python - Advanced automation & security tools
-• Bash - System administration & scripting
-• C/C++ - Low-level programming & performance
-• JavaScript - Web development & automation
+🔴 Offensive Security:
+• SQLi, XSS, Command Injection, Burp Suite, CyberChef
+• Shodan, John the Ripper, Hashcat
 
-Security Tools:
-• Burp Suite Pro - Web application testing
-• Ghidra - Reverse engineering & malware analysis
-• Wireshark - Network protocol analysis
-• Nmap - Network discovery & security auditing
-• John the Ripper - Password cracking
-• Hashcat - Advanced password recovery
+💻 Programming & Scripting:
+• Python, Bash, PowerShell, SQL
 
-Development Tools:
-• Git - Version control & collaboration
-• Linux - Primary development environment
-• VS Code - Code editing & debugging
-• Docker - Containerization & deployment
+🔍 Reverse Engineering:
+• Ghidra, IDA Pro, x64dbg, Cutter, PE Studio
+• YARA, Scylla
 
-Specialization Areas:
-• Cybersecurity - Offensive security & red teaming
-• Machine Learning - AI-powered security tools
-• Blockchain - Decentralized applications
-• IoT Security - Device vulnerability assessment
-        `);
+🌐 Networking:
+• Wireshark, Nmap, Scapy, Cisco Packet Tracer
+
+🎯 Domains:
+• Vulnerability Assessment, Digital Forensics
+• IoT Security, Cloud Security
+
+🏁 Platforms:
+• PortSwigger Labs, TryHackMe (in progress), PicoCTF`);
         break;
         
       case 'contact':
-        await typeText(`
-📞 Get In Touch:
+        await typeText(`📬 Get In Touch:
 
 📧 Email: hary.pery161@gmail.com
-🔗 LinkedIn: https://www.linkedin.com/in/haris-muhammad-696512228
+🔗 LinkedIn: https://www.linkedin.com/in/haris-muhammad-696512228/
 🐙 GitHub: https://github.com/Perister2904
-📱 Phone: 0322-2728443
-📍 Location: Karachi, Pakistan
 
 💼 Available for:
 • Security consultations
-• CTF collaborations
+• CTF collaborations  
 • Project discussions
 • Bug bounty partnerships
 
-Status: ONLINE - Ready to connect!
-        `);
+Status: ONLINE - Ready to connect!`);
         break;
         
       case 'blog':
-        await typeText(`
+        await typeText(`📝 Blog Status:
+
 🛠 Blog Coming Soon! Stay tuned.
 
 I'm currently working on some exciting content about:
@@ -225,8 +206,29 @@ I'm currently working on some exciting content about:
 • CTF writeups and walkthroughs
 • Security tool development
 
-Follow my GitHub for updates on new projects and research!
-        `);
+Follow my GitHub for updates on new projects and research!`);
+        break;
+
+      case 'whoami':
+        await typeText(`You're a curious explorer 👾
+
+Thanks for checking out my terminal portfolio! 
+You seem to know your way around a command line. 
+Respect. 🤝`);
+        break;
+
+      case 'sudo rm -rf /':
+        setLines(prev => [...prev, { type: 'error', content: '⚠️  DANGER: Attempting to delete root filesystem...' }]);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setLines(prev => [...prev, { type: 'error', content: '🛡️  Just kidding! Nice try though 😏' }]);
+        setLines(prev => [...prev, { type: 'system', content: 'Security tip: Never run suspicious commands!' }]);
+        break;
+
+      case 'theme':
+        setIsDarkTheme(prev => !prev);
+        await typeText(`🎨 Theme switched to ${isDarkTheme ? 'light' : 'dark'} mode!
+
+Note: This is just a demo - the terminal stays green for that authentic hacker vibe 💚`);
         break;
         
       case 'clear':
@@ -234,22 +236,35 @@ Follow my GitHub for updates on new projects and research!
         return;
         
       case 'help':
-        await typeText(`
-Available Commands:
-• about    - Learn about me
-• projects - View my GitHub projects
-• skills   - See my technical skills
-• contact  - Get my contact information
-• blog     - Check blog status
-• clear    - Clear terminal screen
-• help     - Show this help message
+        await typeText(`📋 Available Commands:
 
-Pro tip: You can also click the buttons below for quick access!
-        `);
+• about    → Learn about me and my background
+• projects → View my GitHub projects and descriptions  
+• skills   → See my technical skills and expertise
+• contact  → Get my contact information
+• blog     → Check blog status (coming soon!)
+• whoami   → Discover who you are 👾
+• theme    → Toggle theme (demo)
+• clear    → Clear terminal screen
+• help     → Show this help message
+
+💡 Pro tips:
+• Use ↑ ↓ arrow keys to navigate command history
+• Click the buttons below for quick access
+• Try 'sudo rm -rf /' for a surprise 😉`);
         break;
         
       default:
-        await typeText(`Command '${command}' not found. Type 'help' for available commands.`);
+        // Simple autocomplete suggestions
+        const suggestions = ['about', 'projects', 'skills', 'contact', 'blog', 'help', 'clear', 'whoami', 'theme']
+          .filter(c => c.startsWith(cmd.substring(0, 3)))
+          .slice(0, 3);
+        
+        if (suggestions.length > 0) {
+          await typeText(`Command '${command}' not found. Did you mean:\n${suggestions.map(s => `• ${s}`).join('\n')}\n\nType 'help' for all available commands.`);
+        } else {
+          await typeText(`Command '${command}' not found. Type 'help' for available commands.`);
+        }
     }
     
     // Add spacing after output
@@ -271,11 +286,11 @@ Pro tip: You can also click the buttons below for quick access!
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto">
       {/* Terminal Window */}
-      <div className="bg-black border border-green-500 rounded-lg shadow-2xl shadow-green-500/20 overflow-hidden">
+      <div className="bg-black border-2 border-green-400 rounded-lg shadow-2xl shadow-green-400/20 overflow-hidden">
         {/* Terminal Header */}
-        <div className="bg-gray-900 border-b border-green-500 px-4 py-2 flex items-center">
+        <div className="bg-gray-900 border-b border-green-400 px-4 py-3 flex items-center">
           <div className="flex space-x-2">
             <div className="w-3 h-3 bg-red-500 rounded-full"></div>
             <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
@@ -284,7 +299,7 @@ Pro tip: You can also click the buttons below for quick access!
           <div className="flex-1 text-center">
             <span className="text-green-400 font-mono text-sm flex items-center justify-center">
               <TerminalIcon className="w-4 h-4 mr-2" />
-              haris@terminal:~$
+              haris@portfolio:~$
             </span>
           </div>
         </div>
@@ -296,11 +311,13 @@ Pro tip: You can also click the buttons below for quick access!
         >
           {lines.map((line, index) => (
             <div key={index} className="mb-1">
-              <span className={`font-mono text-sm ${
+              <span className={`font-mono text-sm block ${
                 line.type === 'input' 
                   ? 'text-green-400' 
                   : line.type === 'system' 
                   ? 'text-green-300' 
+                  : line.type === 'error'
+                  ? 'text-red-400'
                   : 'text-green-200'
               }`}>
                 {line.content}
@@ -310,7 +327,7 @@ Pro tip: You can also click the buttons below for quick access!
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-green-500 bg-gray-900 p-4">
+        <div className="border-t border-green-400 bg-gray-900 p-4">
           <form onSubmit={handleSubmit} className="flex items-center">
             <span className="text-green-400 font-mono mr-2">$</span>
             <input
@@ -318,6 +335,7 @@ Pro tip: You can also click the buttons below for quick access!
               type="text"
               value={currentInput}
               onChange={(e) => setCurrentInput(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="flex-1 bg-transparent text-green-400 font-mono outline-none caret-green-400"
               placeholder="Type a command..."
               disabled={isTyping}
@@ -330,14 +348,14 @@ Pro tip: You can also click the buttons below for quick access!
         </div>
 
         {/* Quick Command Buttons */}
-        <div className="border-t border-green-500 bg-gray-900 p-4">
+        <div className="border-t border-green-400 bg-gray-900 p-4">
           <div className="flex flex-wrap gap-2">
-            {['about', 'projects', 'skills', 'contact', 'blog', 'clear', 'help'].map((cmd) => (
+            {['about', 'projects', 'skills', 'contact', 'blog', 'help', 'clear'].map((cmd) => (
               <button
                 key={cmd}
                 onClick={() => handleQuickCommand(cmd)}
                 disabled={isTyping}
-                className="px-3 py-1 bg-green-900/30 border border-green-500 text-green-400 font-mono text-sm rounded hover:bg-green-900/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-green-900/30 border border-green-400 text-green-400 font-mono text-sm rounded-full hover:bg-green-900/50 hover:shadow-lg hover:shadow-green-400/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {cmd}
               </button>
@@ -347,9 +365,9 @@ Pro tip: You can also click the buttons below for quick access!
       </div>
 
       {/* Footer */}
-      <div className="text-center mt-4">
+      <div className="text-center mt-6">
         <p className="text-green-500 font-mono text-sm opacity-70">
-          Welcome to the Matrix. Choose your path wisely.
+          Interactive Terminal Portfolio • Press TAB for autocomplete • Use ↑↓ for history
         </p>
       </div>
     </div>
