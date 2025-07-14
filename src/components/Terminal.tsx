@@ -288,7 +288,7 @@ Note: This is just a demo - the terminal stays green for that authentic hacker v
   return (
     <div className="w-full max-w-5xl mx-auto">
       {/* Terminal Window */}
-      <div className="bg-black border-2 border-green-400 rounded-lg shadow-2xl shadow-green-400/20 overflow-hidden">
+      <div className="bg-black border-2 border-green-400 rounded-lg shadow-2xl shadow-green-400/20 overflow-hidden terminal-glow">
         {/* Terminal Header */}
         <div className="bg-gray-900 border-b border-green-400 px-4 py-3 flex items-center">
           <div className="flex space-x-2">
