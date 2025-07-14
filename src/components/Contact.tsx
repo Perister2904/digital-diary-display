@@ -1,5 +1,5 @@
 
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, Terminal, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,122 +7,161 @@ import { Textarea } from "@/components/ui/textarea";
 const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
     console.log("Form submitted");
   };
 
   return (
-    <section id="contact" className="py-20 px-4 bg-white">
+    <section id="contact" className="py-20 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Get In Touch
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Have a project in mind or want to discuss something? I'd love to hear from you. 
-            Let's create something amazing together!
+          <div className="terminal-border bg-card p-6 inline-block mb-8">
+            <h2 className="text-3xl md:text-4xl font-mono font-bold text-primary text-glow">
+              <Terminal className="inline w-8 h-8 mr-3" />
+              netcat -l 4444
+            </h2>
+            <div className="text-sm font-mono text-muted-foreground mt-2">
+              # Listening for incoming connections...
+            </div>
+          </div>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed font-mono">
+            <span className="text-accent">[CONNECTION_ESTABLISHED]</span> Ready to collaborate on security projects or discuss cybersecurity? 
+            <span className="text-primary"> Let's establish a secure channel</span> and build something together.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                Let's Connect
-              </h3>
-              <p className="text-gray-600 leading-relaxed mb-8">
-                I'm always open to discussing new opportunities, collaborations, 
-                or just having a chat about technology and development. Feel free 
-                to reach out through any of the channels below.
-              </p>
+            <div className="terminal-border bg-card p-8">
+              <div className="flex items-center mb-6">
+                <Terminal className="w-6 h-6 text-primary mr-3" />
+                <h3 className="text-xl font-mono font-bold text-primary">
+                  cat /etc/contact.conf
+                </h3>
+              </div>
+              <div className="space-y-4 font-mono text-sm">
+                <div className="flex">
+                  <span className="text-accent w-20">[EMAIL]</span>
+                  <span className="text-foreground">hary.pery161@gmail.com</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-20">[PHONE]</span>
+                  <span className="text-foreground">0322-2728443</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-20">[LOCATION]</span>
+                  <span className="text-foreground">Karachi, Pakistan</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-20">[STATUS]</span>
+                  <span className="text-primary">AVAILABLE</span>
+                </div>
+                <div className="flex">
+                  <span className="text-accent w-20">[SERVICES]</span>
+                  <span className="text-foreground">Security Consulting</span>
+                </div>
+              </div>
+              
+              <div className="mt-6 pt-4 border-t border-border">
+                <div className="text-primary font-mono text-sm mb-2"># Recent Activity</div>
+                <div className="text-xs font-mono text-muted-foreground space-y-1">
+                  <div className="text-primary">$ whoami</div>
+                  <div>Muhammad Haris - Red Team Specialist</div>
+                  <div className="text-accent">[INFO] Available for security projects</div>
+                  <div className="text-accent">[INFO] CTF team collaborations welcome</div>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Email</h4>
-                  <p className="text-gray-600">your.email@example.com</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Phone</h4>
-                  <p className="text-gray-600">+1 (555) 123-4567</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800">Location</h4>
-                  <p className="text-gray-600">Your City, Country</p>
-                </div>
+            <div className="space-y-4">
+              <h4 className="font-mono font-semibold text-primary mb-4">
+                ls /usr/bin/social-links/
+              </h4>
+              <div className="grid grid-cols-2 gap-4">
+                <a
+                  href="https://github.com/Perister2904"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-3 p-4 terminal-border bg-card hover:bg-primary/10 transition-all duration-300 group"
+                >
+                  <Github className="w-6 h-6 text-primary group-hover:text-glow" />
+                  <div>
+                    <div className="font-mono text-sm text-primary">github</div>
+                    <div className="font-mono text-xs text-muted-foreground">./repositories</div>
+                  </div>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/haris-muhammad-696512228"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-3 p-4 terminal-border bg-card hover:bg-accent/10 transition-all duration-300 group"
+                >
+                  <Linkedin className="w-6 h-6 text-accent" />
+                  <div>
+                    <div className="font-mono text-sm text-accent">linkedin</div>
+                    <div className="font-mono text-xs text-muted-foreground">./professional</div>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-8">
+          <div className="terminal-border bg-card p-8">
+            <div className="flex items-center mb-6">
+              <Terminal className="w-6 h-6 text-primary mr-3" />
+              <h3 className="text-xl font-mono font-bold text-primary">send_message.py</h3>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name
+                  <label htmlFor="name" className="block text-sm font-mono text-accent mb-2">
+                    --name="required"
                   </label>
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Your Name"
-                    className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="Enter your name"
+                    className="bg-background terminal-border focus:border-primary focus:ring-primary font-mono"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
+                  <label htmlFor="email" className="block text-sm font-mono text-accent mb-2">
+                    --email="required"
                   </label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="your.email@example.com"
-                    className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="your.email@domain.com"
+                    className="bg-background terminal-border focus:border-primary focus:ring-primary font-mono"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
+                <label htmlFor="subject" className="block text-sm font-mono text-accent mb-2">
+                  --subject="required"
                 </label>
                 <Input
                   id="subject"
                   type="text"
-                  placeholder="What's this about?"
-                  className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Security Consultation | CTF Collaboration | Project Discussion"
+                  className="bg-background terminal-border focus:border-primary focus:ring-primary font-mono"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+                <label htmlFor="message" className="block text-sm font-mono text-accent mb-2">
+                  --message="required"
                 </label>
                 <Textarea
                   id="message"
                   rows={5}
-                  placeholder="Tell me about your project or just say hello!"
-                  className="bg-white border-gray-300 focus:border-blue-500 focus:ring-blue-500 resize-none"
+                  placeholder="# Describe your security project, consultation needs, or collaboration ideas..."
+                  className="bg-background terminal-border focus:border-primary focus:ring-primary resize-none font-mono"
                   required
                 />
               </div>
@@ -130,12 +169,20 @@ const Contact = () => {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-mono terminal-border border-glow"
               >
                 <Send className="w-5 h-5 mr-2" />
-                Send Message
+                ./execute_transmission.sh --send
               </Button>
             </form>
+            
+            <div className="mt-6 pt-4 border-t border-border">
+              <div className="text-xs font-mono text-muted-foreground space-y-1">
+                <div className="text-primary">$ echo "Message encrypted with PGP"</div>
+                <div>[INFO] Secure transmission protocol enabled</div>
+                <div>[INFO] Response time: 24-48 hours</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
