@@ -80,9 +80,10 @@
   /* Terminal glow effect */
   .terminal-glow {
     box-shadow: 
-      0 0 20px rgba(34, 197, 94, 0.3),
-      0 0 40px rgba(34, 197, 94, 0.2),
-      0 0 80px rgba(34, 197, 94, 0.1);
+      0 0 30px rgba(34, 197, 94, 0.4),
+      0 0 60px rgba(34, 197, 94, 0.3),
+      0 0 100px rgba(34, 197, 94, 0.2),
+      inset 0 0 20px rgba(34, 197, 94, 0.1);
   }
   
   /* Smooth animations */
@@ -114,6 +115,18 @@
     66% { transform: translateY(5px) rotate(-1deg); }
   }
   
+  @keyframes pulse-grid {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+  }
+  
+  @keyframes matrix-rain {
+    0% { transform: translateY(-100vh); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+  
   /* Fade in animation */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -124,9 +137,46 @@
     animation: fadeIn 0.5s ease-out;
   }
   
+  .animate-pulse-grid {
+    animation: pulse-grid 4s ease-in-out infinite;
+  }
+  
+  .animate-matrix-rain {
+    animation: matrix-rain 15s linear infinite;
+  }
+  
+  /* Hover underline effect */
+  .hover-underline {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  
+  .hover-underline::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    transition: width 0.3s ease;
+  }
+  
+  .hover-underline:hover::after {
+    width: 100%;
+  }
+  
+  .hover-underline:hover {
+    color: #22c55e;
+    text-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+  }
+  
   /* Hide animations on mobile for performance */
   @media (max-width: 768px) {
     .animate-pulse,
+    .animate-matrix-rain,
+    .animate-pulse-grid,
     [style*="animation"] {
       animation: none !important;
     }

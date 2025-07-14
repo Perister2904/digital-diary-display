@@ -15,7 +15,6 @@ const Terminal = () => {
   const [showCursor, setShowCursor] = useState(true);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -116,7 +115,9 @@ const Terminal = () => {
     
     switch (cmd) {
       case 'about':
-        await typeText(`Cybersecurity student at FAST-NUCES with a strong focus on red teaming, penetration testing, and real-world attack simulations.
+        await typeText(`🧑‍💻 About Me
+
+Cybersecurity student at FAST-NUCES with a strong focus on red teaming, penetration testing, and real-world attack simulations.
 
 🏆 2nd place in "Shadows of the Realm" CTF
 🔍 Bug bounty researcher on HackerOne and Bugcrowd
@@ -127,42 +128,48 @@ Passionate about building custom security tools and contributing to the cybersec
         break;
         
       case 'projects':
-        await typeText(`🚀 My GitHub Projects:
-
-1. Multi-file Malware Analyzer
-   → A Python-based tool for analyzing and correlating multiple malicious files
-   → https://github.com/masooma09/Multi-file-Malware-Analyzer
-
-2. EVENT MANAGEMENT SYSTEM
-   → A system for managing event creation, registration, and scheduling
-   → https://github.com/Perister2904/EVENT-MANAGEMENT-SYSTEM
-
-3. Client-Server Quiz Game Application
-   → A TCP socket-based multiplayer quiz game using secure communication
-   → https://github.com/masooma09/-Client-Server-Quiz-Game-Application-
-
-4. IoT Device Risk Management System
-   → Evaluates IoT device vulnerabilities and risk exposure
-   → https://github.com/masooma09/-IoT-Device-Risk-Management-System
-
-5. WiScan – A Brute-Force Dictionary-Based Wi-Fi Audit Tool
-   → Audits wireless networks using dictionary attacks to test password strength
-   → https://github.com/masooma09/WiScan-A-Brute-Force-Dictionary-Based-Wi-Fi-Audit-Tool
-
-6. AI-Powered Connect Four Plus
-   → An enhanced Connect Four game featuring AI strategy and fog-of-war mode
-   → https://github.com/masooma09/AI-Powered-Connect-Four-Plus`);
+        // Add projects with clickable links
+        setLines(prev => [...prev, { type: 'output', content: '🚀 My GitHub Projects:' }]);
+        setLines(prev => [...prev, { type: 'output', content: '' }]);
+        
+        const projects = [
+          { name: 'Multi-file Malware Analyzer', desc: 'A Python-based tool for analyzing and correlating multiple malicious files', url: 'https://github.com/masooma09/Multi-file-Malware-Analyzer' },
+          { name: 'EVENT MANAGEMENT SYSTEM', desc: 'A system for managing event creation, registration, and scheduling', url: 'https://github.com/Perister2904/EVENT-MANAGEMENT-SYSTEM' },
+          { name: 'Client-Server Quiz Game Application', desc: 'A TCP socket-based multiplayer quiz game using secure communication', url: 'https://github.com/masooma09/-Client-Server-Quiz-Game-Application-' },
+          { name: 'IoT Device Risk Management System', desc: 'Evaluates IoT device vulnerabilities and risk exposure', url: 'https://github.com/masooma09/-IoT-Device-Risk-Management-System' },
+          { name: 'WiScan – A Brute-Force Dictionary-Based Wi-Fi Audit Tool', desc: 'Audits wireless networks using dictionary attacks to test password strength', url: 'https://github.com/masooma09/WiScan-A-Brute-Force-Dictionary-Based-Wi-Fi-Audit-Tool' },
+          { name: 'AI-Powered Connect Four Plus', desc: 'An enhanced Connect Four game featuring AI strategy and fog-of-war mode', url: 'https://github.com/masooma09/AI-Powered-Connect-Four-Plus' }
+        ];
+        
+        for (let i = 0; i < projects.length; i++) {
+          const project = projects[i];
+          const projectElement = document.createElement('div');
+          projectElement.innerHTML = `
+            <div class="mb-3">
+              <div class="text-green-400 font-bold text-lg mb-1">
+                ${i + 1}. <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="hover-underline cursor-pointer">${project.name}</a>
+              </div>
+              <div class="text-green-200 text-sm ml-4">→ ${project.desc}</div>
+            </div>
+          `;
+          
+          setLines(prev => [...prev, { 
+            type: 'output', 
+            content: `${i + 1}. ${project.name}\n   → ${project.desc}\n   → ${project.url}`
+          }]);
+          setLines(prev => [...prev, { type: 'output', content: '' }]);
+        }
         break;
         
       case 'skills':
-        await typeText(`💻 Technical Skills:
+        await typeText(`🛠️ Technical Skills
+
+💻 Programming & Scripting:
+• Python, Bash, PowerShell, SQL
 
 🔴 Offensive Security:
 • SQLi, XSS, Command Injection, Burp Suite, CyberChef
 • Shodan, John the Ripper, Hashcat
-
-💻 Programming & Scripting:
-• Python, Bash, PowerShell, SQL
 
 🔍 Reverse Engineering:
 • Ghidra, IDA Pro, x64dbg, Cutter, PE Studio
@@ -196,17 +203,31 @@ Status: ONLINE - Ready to connect!`);
         break;
         
       case 'blog':
-        await typeText(`📝 Blog Status:
-
-🛠 Blog Coming Soon! Stay tuned.
-
-I'm currently working on some exciting content about:
-• Advanced penetration testing techniques
-• Malware analysis case studies
-• CTF writeups and walkthroughs
-• Security tool development
-
-Follow my GitHub for updates on new projects and research!`);
+        setLines(prev => [...prev, { type: 'output', content: '📝 Blog Status' }]);
+        setLines(prev => [...prev, { type: 'output', content: '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━' }]);
+        setLines(prev => [...prev, { type: 'output', content: '' }]);
+        setLines(prev => [...prev, { type: 'output', content: '🛠️ Blog Coming Soon! Stay tuned.' }]);
+        setLines(prev => [...prev, { type: 'output', content: '' }]);
+        setLines(prev => [...prev, { type: 'output', content: "I'm currently working on some exciting content about:" }]);
+        setLines(prev => [...prev, { type: 'output', content: '• Advanced penetration testing techniques' }]);
+        setLines(prev => [...prev, { type: 'output', content: '• Malware analysis case studies' }]);
+        setLines(prev => [...prev, { type: 'output', content: '• CTF writeups and walkthroughs' }]);
+        setLines(prev => [...prev, { type: 'output', content: '• Security tool development' }]);
+        setLines(prev => [...prev, { type: 'output', content: '' }]);
+        
+        // Add clickable GitHub link
+        const githubElement = document.createElement('div');
+        githubElement.innerHTML = `
+          <a href="https://github.com/Perister2904" target="_blank" rel="noopener noreferrer" 
+             class="hover-underline cursor-pointer text-green-400 font-bold text-lg">
+            🔗 Follow my GitHub for updates on new projects and research!
+          </a>
+        `;
+        
+        setLines(prev => [...prev, { 
+          type: 'output', 
+          content: '🔗 Follow my GitHub for updates on new projects and research!\n   → https://github.com/Perister2904'
+        }]);
         break;
 
       case 'whoami':
@@ -225,8 +246,7 @@ Respect. 🤝`);
         break;
 
       case 'theme':
-        setIsDarkTheme(prev => !prev);
-        await typeText(`🎨 Theme switched to ${isDarkTheme ? 'light' : 'dark'} mode!
+        await typeText(`🎨 Theme switched!
 
 Note: This is just a demo - the terminal stays green for that authentic hacker vibe 💚`);
         break;
@@ -236,7 +256,7 @@ Note: This is just a demo - the terminal stays green for that authentic hacker v
         return;
         
       case 'help':
-        await typeText(`📋 Available Commands:
+        await typeText(`📋 Available Commands
 
 • about    → Learn about me and my background
 • projects → View my GitHub projects and descriptions  
@@ -288,7 +308,7 @@ Note: This is just a demo - the terminal stays green for that authentic hacker v
   return (
     <div className="w-full max-w-5xl mx-auto">
       {/* Terminal Window */}
-      <div className="bg-black border-2 border-green-400 rounded-lg shadow-2xl shadow-green-400/20 overflow-hidden terminal-glow">
+      <div className="bg-black border-2 border-green-400 rounded-lg shadow-2xl overflow-hidden terminal-glow">
         {/* Terminal Header */}
         <div className="bg-gray-900 border-b border-green-400 px-4 py-3 flex items-center">
           <div className="flex space-x-2">
@@ -311,14 +331,18 @@ Note: This is just a demo - the terminal stays green for that authentic hacker v
         >
           {lines.map((line, index) => (
             <div key={index} className="mb-1">
-              <span className={`font-mono text-sm block ${
+              <span className={`font-mono block ${
                 line.type === 'input' 
-                  ? 'text-green-400' 
+                  ? 'text-green-400 text-base' 
                   : line.type === 'system' 
-                  ? 'text-green-300' 
+                  ? 'text-green-300 text-sm' 
                   : line.type === 'error'
-                  ? 'text-red-400'
-                  : 'text-green-200'
+                  ? 'text-red-400 text-sm'
+                  : line.content.includes('📝 Blog Status') || line.content.includes('🚀 My GitHub Projects') || line.content.includes('🧑‍💻 About Me') || line.content.includes('🛠️ Technical Skills') || line.content.includes('📬 Get In Touch') || line.content.includes('📋 Available Commands')
+                  ? 'text-green-400 text-xl font-bold'
+                  : line.content.startsWith('•') || line.content.startsWith('→') || line.content.includes('.')
+                  ? 'text-green-200 text-sm leading-relaxed'
+                  : 'text-green-200 text-sm'
               }`}>
                 {line.content}
               </span>
@@ -355,7 +379,7 @@ Note: This is just a demo - the terminal stays green for that authentic hacker v
                 key={cmd}
                 onClick={() => handleQuickCommand(cmd)}
                 disabled={isTyping}
-                className="px-4 py-2 bg-green-900/30 border border-green-400 text-green-400 font-mono text-sm rounded-full hover:bg-green-900/50 hover:shadow-lg hover:shadow-green-400/30 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-green-900/30 border border-green-400 text-green-400 font-mono text-sm rounded-full hover:bg-green-500/20 hover:shadow-lg hover:shadow-green-400/30 hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform hover:border-green-300"
               >
                 {cmd}
               </button>
